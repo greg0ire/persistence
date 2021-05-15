@@ -29,9 +29,9 @@ interface MappingDriver
      * Returns whether the class with the specified name should have its metadata loaded.
      * This is only the case if it is either mapped as an Entity or a MappedSuperclass.
      *
-     * @return bool
-     *
      * @psalm-param class-string $className
+     *
+     * @return bool
      */
     public function isTransient(string $className);
 }

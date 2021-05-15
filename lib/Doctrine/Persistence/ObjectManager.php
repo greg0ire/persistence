@@ -19,12 +19,14 @@ interface ObjectManager
      *
      * @param string $className The class name of the object to find.
      * @param mixed  $id        The identity of the object to find.
+     * @psalm-param class-string<T> $className
+     * @psalm-param class-string<T> $className
      *
      * @return object|null The found object.
+     * @psalm-return T|null
+     * @psalm-return T|null
      *
      * @template T of object
-     * @psalm-param class-string<T> $className
-     * @psalm-return T|null
      */
     public function find(string $className, $id): ?object;
 
@@ -100,9 +102,11 @@ interface ObjectManager
     /**
      * Gets the repository for a class.
      *
-     * @template T of object
      * @psalm-param class-string<T> $className
+     *
      * @psalm-return ObjectRepository<T>
+     *
+     * @template T of object
      */
     public function getRepository(string $className): ObjectRepository;
 
@@ -111,6 +115,12 @@ interface ObjectManager
      *
      * The class name must be the fully-qualified class name without a leading backslash
      * (as it is returned by get_class($obj)).
+     *
+     * @psalm-param class-string<T> $className
+     *
+     * @psalm-return ClassMetadata<T>
+     *
+     * @template T of object
      */
     public function getClassMetadata(string $className): ClassMetadata;
 

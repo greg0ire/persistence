@@ -9,17 +9,7 @@ use Doctrine\Common\Proxy\Proxy;
 use Doctrine\Persistence\Reflection\RuntimePublicReflectionProperty;
 use LogicException;
 use PHPUnit\Framework\TestCase;
-
-class DummyObject
-{
-    public function callGet(): void
-    {
-    }
-
-    public function callSet(): void
-    {
-    }
-}
+use stdClass;
 
 class RuntimePublicReflectionPropertyTest extends TestCase
 {
@@ -51,10 +41,8 @@ class RuntimePublicReflectionPropertyTest extends TestCase
 
     public function testGetValueOnProxyPublicProperty(): void
     {
-        $getCheckMock = $this->createMock(DummyObject::class);
-        $getCheckMock->expects(self::never())->method('callGet');
-        $initializer = static function () use ($getCheckMock): void {
-            $getCheckMock->callGet();
+        $initializer = static function (): void {
+            self::fail('The initializer should not be called.');
         };
 
         $mockProxy = new RuntimePublicReflectionPropertyTestProxyMock();
@@ -72,8 +60,8 @@ class RuntimePublicReflectionPropertyTest extends TestCase
 
     public function testSetValueOnProxyPublicProperty(): void
     {
-        $setCheckMock = $this->createMock(DummyObject::class);
-        $setCheckMock->expects(self::never())->method('callSet');
+        $setCheckMock = $this->getMockBuilder(stdClass::class)->setMethods(['neverCallSet'])->getMock();
+        $setCheckMock->expects(self::never())->method('neverCallSet');
         $initializer = static function () use ($setCheckMock): void {
             $setCheckMock->callSet();
         };
@@ -93,8 +81,8 @@ class RuntimePublicReflectionPropertyTest extends TestCase
         $reflProperty->setValue($mockProxy, 'otherNewValue');
         self::assertSame('otherNewValue', $mockProxy->checkedProperty);
 
-        $setCheckMock = $this->createMock(DummyObject::class);
-        $setCheckMock->expects(self::once())->method('callSet');
+        $setCheckMock = $this->getMockBuilder(stdClass::class)->setMethods(['callSet'])->getMock();
+        $setCheckMock->expects($this->once())->method('callSet');
         $initializer = static function () use ($setCheckMock): void {
             $setCheckMock->callSet();
         };
@@ -143,7 +131,6 @@ class RuntimePublicReflectionPropertyTestProxyMock implements Proxy
      *
      * @return mixed[] Keys are the property names, and values are the default
      *                 values for those properties.
-     *
      * @phpstan-return array<string, mixed>
      */
     public function __getLazyProperties()
