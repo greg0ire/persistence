@@ -125,7 +125,7 @@ interface ClassMetadata
     /**
      * Returns the target field of the owning side of the association.
      *
-     * @return string
+     * @return string|null
      */
     public function getAssociationMappedByTargetField(string $assocName);
 
