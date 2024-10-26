@@ -60,9 +60,9 @@ class RuntimeReflectionService implements ReflectionService
     }
 
     /**
-     * @psalm-param class-string<T> $class
+     * @phpstan-param class-string<T> $class
      *
-     * @psalm-return ReflectionClass<T>
+     * @phpstan-return ReflectionClass<T>
      *
      * @template T of object
      */

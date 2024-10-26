@@ -18,7 +18,7 @@ abstract class AbstractManagerRegistry implements ManagerRegistry
     /**
      * @param array<string, string> $connections
      * @param array<string, string> $managers
-     * @psalm-param class-string $proxyInterfaceName
+     * @phpstan-param class-string $proxyInterfaceName
      */
     public function __construct(
         private readonly string $name,
@@ -204,7 +204,7 @@ abstract class AbstractManagerRegistry implements ManagerRegistry
         return $this->getManager($name);
     }
 
-    /** @psalm-param class-string $persistentObject */
+    /** @phpstan-param class-string $persistentObject */
     private function selectManager(
         string $persistentObject,
         string|null $persistentManagerName = null,
