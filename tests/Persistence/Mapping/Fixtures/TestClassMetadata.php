@@ -14,7 +14,7 @@ use ReflectionClass;
  */
 final class TestClassMetadata implements ClassMetadata
 {
-    /** @psalm-param class-string<T> $className */
+    /** @phpstan-param class-string<T> $className */
     public function __construct(private readonly string $className)
     {
     }

@@ -14,7 +14,7 @@ use Doctrine\Persistence\Mapping\ClassMetadata;
  */
 class PHPDriver extends FileDriver
 {
-    /** @psalm-var ClassMetadata<object> */
+    /** @phpstan-var ClassMetadata<object> */
     protected ClassMetadata $metadata;
 
     /** @param string|array<int, string>|FileLocator $locator */
